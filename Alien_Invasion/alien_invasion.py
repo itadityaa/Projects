@@ -9,7 +9,7 @@ Introduction to Programming"""
 class AlienInvasion:
     """Main Class to control the game"""
 
-    def __int__(self):
+    def __init__(self):
         """Initialize the game, and build game resources"""
         pygame.init()
 
