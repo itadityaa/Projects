@@ -1,6 +1,7 @@
 import sys
-import os
 import pygame
+
+from game_settings import Settings
 
 """Project inspired from the book: Python Crash Course: A Hands-On, Project-Based
 Introduction to Programming"""
@@ -12,12 +13,13 @@ class AlienInvasion:
     def __init__(self):
         """Initialize the game, and build game resources"""
         pygame.init()
+        self.settings = Settings()
 
-        self.screen = pygame.display.set_mode((1200, 800))
+        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
         pygame.display.set_caption("Alien Invasion")
 
         # Set the background color. (RGB) - (128, 128, 128) Grey color
-        self.bg_color = (128, 128, 128)
+        # self.bg_color = (128, 128, 128)
 
     def run_game(self):
         """Keeps the game running until a quit event is requested"""
@@ -29,7 +31,7 @@ class AlienInvasion:
                     sys.exit()
 
             # Redraw the screen during each pass through the while loop.
-            self.screen.fill(self.bg_color)
+            self.screen.fill(self.settings.bg_color)
 
             # Make the most recently drawn/updated screen visible
             pygame.display.flip()
