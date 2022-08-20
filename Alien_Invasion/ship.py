@@ -11,10 +11,23 @@ class Ship:
 
         # Load the ship and get its boundaries
         self.image = pygame.image.load("images/ship.bmp")
-        self.image_rect = self.image.get_rect()
+        self.rect = self.image.get_rect()
 
         # Create each ship at the bottom center of the screen.
         self.rect.midbottom = self.screen_rect.midbottom
+
+        # Movement flag
+        self.moving_right = False
+        self.moving_left = False
+        self.moving_down = False
+        self.moving_left = False
+
+    def update(self):
+        """Update the ship's position based on movement flag."""
+        if self.moving_right:
+            self.rect.x += 1
+        if self.moving_left:
+            self.rect.x -= 1
 
     def blitme(self):
         """Draw the ship at its current location"""
