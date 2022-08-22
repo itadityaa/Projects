@@ -4,6 +4,7 @@ import pygame
 from game_settings import Settings
 from ship import Ship
 from Bullet import Bullet
+from Alien import Alien
 
 """Project inspired from the book: Python Crash Course: A Hands-On, Project-Based
 Introduction to Programming"""
@@ -27,6 +28,9 @@ class AlienInvasion:
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
+
+        self._create_fleet()
 
     def run_game(self):
         """Keeps the game running until a quit event is requested"""
@@ -45,6 +49,27 @@ class AlienInvasion:
         for bullet in self.bullets.copy():
             if bullet.rect.bottom <= 0:
                 self.bullets.remove(bullet)
+
+    def _create_fleet(self):
+        """Create the fleet of aliens"""
+        # Make an alien
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        available_space_x = self.settings.screen_width - (2 * alien_width)
+        number_aliens_x = available_space_x // (2 * alien_width)
+
+        # Create the first row of aliens.
+
+        for alien_number in range(number_aliens_x):
+            self._create_alien(alien_number)
+
+    def _create_alien(self, alien_number):
+        # Create an alien and place it in the row.
+        alien = Alien(self)
+        alien_width = alien.rect.width
+        alien.x = alien_width + 2 * alien_width * alien_number
+        alien.rect.x = alien.x
+        self.aliens.add(alien)
 
     def check_events(self):
         """Checks for every event(activity) occurring on the keyboard or on the mouse."""
@@ -88,6 +113,7 @@ class AlienInvasion:
         self.ship.blitme()
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        self.aliens.draw(self.screen)
 
         # Make the most recently drawn/updated screen visible
         pygame.display.flip()
