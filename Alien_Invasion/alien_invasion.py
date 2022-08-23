@@ -1,10 +1,12 @@
 import sys
+from time import sleep
 import pygame
 
 from game_settings import Settings
 from ship import Ship
 from Bullet import Bullet
 from Alien import Alien
+from game_stats import GameStats
 
 """Project inspired from the book: Python Crash Course: A Hands-On, Project-Based
 Introduction to Programming"""
@@ -22,6 +24,9 @@ class AlienInvasion:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         pygame.display.set_caption("Alien Invasion")
+
+        # Create an instance to store game statistics.
+        self.stats = GameStats(self)
 
         # Set the background color. (RGB) - (128, 128, 128) Grey color
         # self.bg_color = (128, 128, 128)
@@ -41,6 +46,19 @@ class AlienInvasion:
             self._update_bullets()
             self._update_aliens()
             self.update_screen()
+
+    def _ship_hit(self):
+        """Respond to the ship being hit by an alien."""
+        # Decrement ship left by 1
+        self.settings.ship_limit -= 1
+
+        # Get rid of all the remaining aliens and bullets.
+        self.aliens.empty()
+        self.bullets.empty()
+
+        # Create a new fleet and a ship.
+        self._create_fleet()
+        self.ship.center_ship()
 
     def _check_fleet_edges(self):
         """Respond appropriately if any aliens have reached an edge."""
@@ -81,6 +99,10 @@ class AlienInvasion:
         """Update the positions of all aliens in the fleet."""
         self._check_fleet_edges()
         self.aliens.update()
+
+        # Look for alien-ship collisions.
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            self._ship_hit()
 
     def _create_fleet(self):
         """Create the fleet of aliens"""
