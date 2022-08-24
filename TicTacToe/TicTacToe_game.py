@@ -2,11 +2,15 @@ import time
 from Player import HumanPlayer, ComputerPlayer
 
 
+# play_again = True
+
+
 class TicTacToe:
     """Represent the definitions and the necessary functions to play the game"""
 
     def __init__(self):
         """Initialize the board."""
+        self.play_variable = None
         self.board = [' ' for _ in range(9)]
         self.winner = None
 
@@ -22,6 +26,7 @@ class TicTacToe:
         # strings.
         for row in number_board:
             print("| " + " | ".join(row) + " |")
+        print("-------------")
 
     def available_moves(self):
         """Create a list of all the available moves for a player."""
@@ -68,6 +73,14 @@ class TicTacToe:
                 self.winner = letter
             return True
 
+    def play_again(self):
+        """Check if the player wants to play again"""
+        self.play_variable = input("\nWould you like to play again? (y/n): ")
+        if self.play_variable == 'y':
+            return True
+        else:
+            return False
+
 
 def play(game, x_player, o_player, print_game=True):
     if print_game:
@@ -90,18 +103,24 @@ def play(game, x_player, o_player, print_game=True):
             if game.winner:
                 if print_game:
                     print(f"{letter} wins the game!")
-                    return letter
+                    play_a = game.play_again()
+                    return play_a
 
             letter = "O" if letter == "X" else "X"
 
         time.sleep(1)
 
     if print_game:
-        print("It is a draw.")
+        print("It is a draw. '___' ")
+        play_a = game.play_again()
+        return play_a
 
 
 if __name__ == '__main__':
-    x_player = HumanPlayer("X")
-    o_player = ComputerPlayer("O")
-    ttt_game = TicTacToe()
-    play(ttt_game, x_player, o_player)
+    play_again = True
+    while play_again:
+        x_player = HumanPlayer("X")
+        o_player = ComputerPlayer("O")
+        ttt_game = TicTacToe()
+        # play_again = play(ttt_game, x_player, o_player)
+        play_again = play(ttt_game, x_player, o_player)
