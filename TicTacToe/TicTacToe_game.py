@@ -3,51 +3,49 @@ from Player import HumanPlayer, ComputerPlayer
 
 
 class TicTacToe:
-    """Represents the definitions and the necessary functions to play the game"""
+    """Represent the definitions and the necessary functions to play the game"""
 
     def __init__(self):
+        """Initialize the board."""
         self.board = [' ' for _ in range(9)]
         self.winner = None
 
     def print_board(self):
-        for row in [self.board[i * 3: (i + 1) * 3] for i in range(3)]:
+        # Function to print the board.
+        for row in [self.board[i * 3: (i + 1) * 3] for i in range(3)]:  # 0-2, 3-5, 6-8
             print("| " + " | ".join(row) + " |")
 
     @staticmethod
-    # Is not related to the game. Prints a general board
+    # Is not related to the game. Print a general board for a quick reference.
     def print_board_nums():
-        number_board = [[str(i) for i in range(j * 3, (j + 1) * 3)] for j in range(3)]
+        number_board = [[str(num) for num in range(row * 3, (row + 1) * 3)] for row in range(3)]  # Join works on
+        # strings.
         for row in number_board:
             print("| " + " | ".join(row) + " |")
 
     def available_moves(self):
+        """Create a list of all the available moves for a player."""
         return [move for move, spot in enumerate(self.board) if spot == ' ']
 
     def empty_squares(self):
+        """Check if the board is empty or not. Return true if not empty."""
         return " " in self.board
 
-    def number_empty_squares(self):
-        return len(self.available_moves())
-        # Can also return the count of empty spaces on the board
-
-    def make_a_move(self, spot, letter):
-        if self.board[spot] != " ":
-            return False
-        else:
-            self.board[spot] = letter
-            if self.check_winner(spot, letter):
-                self.winner = letter
-            return True
+    # def number_empty_squares(self):
+    # """Not using in this code."""
+    #     return len(self.available_moves())
+    #     # Can also return the count of empty spaces on the board
 
     def check_winner(self, spot, letter):
         # Checking rows
-        row_index = spot // 3
+        row_index = spot // 3  # Spot = 3 is in the second row. 3 // 3 = 1.0 which is the second row if we have 3 rows.
         row = self.board[row_index * 3: (row_index + 1) * 3]
         if all([spot_r == letter for spot_r in row]):
             return True
 
         # Checking columns
-        col_index = spot % 3
+        col_index = spot % 3  # Spot = 3 must be the first column of the second row. We must check the first column of
+        # all the rows.
         column = [self.board[col_index + row * 3] for row in range(3)]
         if all([spot_c == letter for spot_c in column]):
             return True
@@ -59,6 +57,16 @@ class TicTacToe:
             return True
 
         return False
+
+    def make_a_move(self, spot, letter):
+        """Make a move to an empty space."""
+        if self.board[spot] != " ":
+            return False
+        else:
+            self.board[spot] = letter
+            if self.check_winner(spot, letter):
+                self.winner = letter
+            return True
 
 
 def play(game, x_player, o_player, print_game=True):
@@ -75,7 +83,7 @@ def play(game, x_player, o_player, print_game=True):
 
         if game.make_a_move(spot, letter):
             if print_game:
-                print(f'{letter} makes a move to the spot {spot}')
+                print(f'\n{letter} makes a move to the spot {spot}')
                 game.print_board()
                 print("-------------")
 
