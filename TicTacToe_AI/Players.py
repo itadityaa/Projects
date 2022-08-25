@@ -44,3 +44,9 @@ class HumanPlayer(Player):
                 print("\nInvalid Spot! Please try again.\n")
 
         return value
+
+
+class SmartComputerPlayer(Player):
+
+    def __init__(self):
+        super().__init__()
