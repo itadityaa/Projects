@@ -1,5 +1,5 @@
 import time
-from Players import HumanPlayer, ComputerPlayer
+from Players import HumanPlayer, ComputerPlayer, SmartComputerPlayer
 
 
 class TicTacToe:
@@ -27,7 +27,7 @@ class TicTacToe:
     def check_if_empty(self):
         return ' ' in self.board
 
-    def _number_of_empty_square(self):
+    def number_of_empty_square(self):
         return self.board.count(" ")
 
     def check_winner(self, spot, letter):
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     # play_again = True
     # while play_again:
     x_player = HumanPlayer("X")
-    o_player = ComputerPlayer("O")
+    o_player = SmartComputerPlayer("O")
     ttt_game = TicTacToe()
     # play_again = play(ttt_game, x_player, o_player)
     play(ttt_game, x_player, o_player)
