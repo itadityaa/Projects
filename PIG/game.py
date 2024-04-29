@@ -10,7 +10,7 @@ def dice_roll():
 
 def player_turn(current_score = 0):
     response = input("Would you like to roll the dice? (y/n) ")
-    if response == 'y':
+    if response.lower() == 'y':
         roll = dice_roll()
         if roll == 1:
             print("You rolled a 1! Your turn is over.")
